@@ -20,6 +20,20 @@ createTaskEl = (taskdataObj) => {
     taskIDCounter++;
 }
 
+completeEditTask = function(taskName, taskType, taskId){
+// find the matching task list item
+var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+// set new values
+taskSelected.querySelector("h3.task-name").textContent = taskName;
+taskSelected.querySelector("span.task-type").textContent = taskType;
+
+alert("Task Updated!");
+formEl.removeAttribute("data-task-id");
+document.querySelector("#save-task").textContent = "Add Task";
+formEl.reset();
+}
+
 /* Method to handle task-form actions  */
 
 function taskFormHandler(event) {
@@ -30,11 +44,20 @@ function taskFormHandler(event) {
         alert("You need to fill out the task form!");
         return;
     }
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
+    
+    var isEditAction = formEl.hasAttribute("data-task-id");
+    console.log("is editable task : "+isEditAction);
+    if(isEditAction){
+            var taskId = formEl.getAttribute("data-task-id");
+            completeEditTask(taskNameInput, taskTypeInput, taskId);
     }
+    else {
+        var taskDataObj = {
+            name: taskNameInput,
+            type: taskTypeInput
+        };
     createTaskEl(taskDataObj);
+    }
 }
 
 /* Method to create action buttons to each task  */
