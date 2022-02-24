@@ -92,10 +92,28 @@ function taskButtonHandler(event){
         var elementID = event.target.getAttribute("data-task-id");
         deleteFunction(elementID);
     }
+    if(event.target.matches(".edit-btn")){
+        var elementID = event.target.getAttribute("data-task-id");
+        editFunction(elementID);
+    }
 }
 
 var deleteFunction = function(taskID){
     // console.log("deleting the task with id "+taskID);
     var tasksBeingDelete = document.querySelector(".task-item[data-task-id='"+taskID+"']");
     tasksBeingDelete.remove();
+}
+
+var editFunction = function(taskID){
+    var tasksBeingEdit = document.querySelector(".task-item[data-task-id='"+taskID+"']");
+
+    var taskContent = tasksBeingEdit.querySelector('h3.task-name').textContent;
+    var taskTypeContent = tasksBeingEdit.querySelector('span.task-type').textContent;
+    
+    console.log('task to edit :'+taskContent);
+    console.log('task type to edit '+ taskTypeContent);
+    document.querySelector("input[name='task-name']").value = taskContent;
+    document.querySelector("select[name='task-type']").value = taskTypeContent;
+    document.querySelector("#save-task").textContent = "Save Task";
+    formEl.setAttribute("data-task-id", taskID);
 }
